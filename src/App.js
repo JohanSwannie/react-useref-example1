@@ -1,14 +1,15 @@
 import React, { useState, useRef } from "react";
 
 const sportList = [
-  "Tennis",
-  "Bowls",
-  "Football",
-  "Table tennis",
-  "Netball",
-  "Rugby",
-  "Swimming",
-  "Gymnastics",
+  "tennis",
+  "bowls",
+  "football",
+  "table tennis",
+  "netball",
+  "rugby",
+  "swimming",
+  "gymnastics",
+  "cricket",
 ];
 
 function App() {
@@ -18,11 +19,17 @@ function App() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (sportList.includes(reffy.current.value)) {
-      setSportNames([...sportNames, reffy.current.value]);
-      setErrorMsg("");
+    if (sportList.includes(reffy.current.value.toLowerCase())) {
+      if (sportNames.includes(reffy.current.value.toLowerCase())) {
+        setErrorMsg(`Try again - You have already chosen that sport`);
+      } else {
+        setSportNames([...sportNames, reffy.current.value.toLowerCase()]);
+        setErrorMsg("");
+      }
     } else {
-      setErrorMsg("Oh no Mate - Wrong value!!!");
+      setErrorMsg(
+        `Oh no Mate - Wrong Sport! - The club only have the following sports available : ${sportList}`
+      );
     }
     reffy.current.value = "";
   };
@@ -30,7 +37,9 @@ function App() {
   return (
     <div className="App">
       <form onSubmit={handleSubmit}>
-        <input type="text" ref={reffy} />
+        <label>
+          Enter your sport of choice: <input type="text" ref={reffy} />
+        </label>
       </form>
       <ul>
         {sportNames.map((sport, index) => (
